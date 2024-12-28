@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
-internal fun Serializable.toJson(): String {
+fun Serializable.toJson(): String {
     return try {
         val jsonObject = JSONObject()
         val kClass = this::class
@@ -28,7 +28,7 @@ internal fun Serializable.toJson(): String {
     }
 }
 
-internal fun Serializable.toJsonObject(): JSONObject {
+fun Serializable.toJsonObject(): JSONObject {
     val jsonObject = JSONObject()
     return try {
         val kClass = this::class
@@ -50,7 +50,7 @@ internal fun Serializable.toJsonObject(): JSONObject {
     }
 }
 
-internal fun <T : Any> String.fromJson(classOfT: KClass<T>): T? {
+fun <T : Any> String.fromJson(classOfT: KClass<T>): T? {
     return try {
         val jsonObject = JSONObject(this)
         val constructor = classOfT.primaryConstructor

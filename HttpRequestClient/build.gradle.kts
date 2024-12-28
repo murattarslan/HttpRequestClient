@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -29,6 +30,32 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.murattarslan"
+            artifactId = "httpRequestClient"
+            version = "1.0"
+            artifact("${buildFile.absolutePath}/outputs/aar/httpRequestClient-release.aar")
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "githubPackages"
+            url = uri("https://maven.pkg.github.com/murattarslan/httpRequestClient")
+            credentials {
+                username = properties["GITHUB_USERNAME"].toString()
+                password = properties["GITHUB_TOKEN"].toString()
+            }
+        }
+
     }
 }
 

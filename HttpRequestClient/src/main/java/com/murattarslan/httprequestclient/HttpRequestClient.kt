@@ -37,7 +37,7 @@ import javax.net.ssl.SSLSocketFactory
  * @property get
  * @property post
  * */
-internal data class HttpRequestClient(
+data class HttpRequestClient(
     val baseUrl: String,
     val headers: Map<String, String> = mapOf(
         "Content-Type" to "application/json",
