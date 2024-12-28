@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -37,12 +39,9 @@ publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "com.murattarslan"
-            artifactId = "httpRequestClient"
+            artifactId = "httprequestclient"
             version = "1.0"
-            artifact("${buildFile.absolutePath}/outputs/aar/httpRequestClient-release.aar")
-            afterEvaluate {
-                from(components["release"])
-            }
+            artifact("${buildDir}/outputs/aar/httpRequestClient-release.aar")
         }
     }
 
@@ -51,8 +50,15 @@ publishing {
             name = "githubPackages"
             url = uri("https://maven.pkg.github.com/murattarslan/httpRequestClient")
             credentials {
-                username = properties["GITHUB_USERNAME"].toString()
-                password = properties["GITHUB_TOKEN"].toString()
+                val localProperties = Properties()
+                val localPropertiesFile = rootProject.file("local.properties")
+                if (localPropertiesFile.exists()) {
+                    localProperties.load(localPropertiesFile.inputStream())
+                }
+                username = localProperties.getProperty("GITHUB_USER")
+                println("username:" + username)
+                password = localProperties.getProperty("GITHUB_TOKEN")
+                println("password" + password)
             }
         }
 
