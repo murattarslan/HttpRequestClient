@@ -40,15 +40,26 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.murattarslan"
             artifactId = "httprequestclient"
-            version = "1.0"
+            version = "1.1"
             artifact("${buildDir}/outputs/aar/httpRequestClient-release.aar")
         }
     }
 
     repositories {
         maven {
-            name = "jitpack"
-            url = uri("https://jitpack.io")
+            name = "githubPackages"
+            url = uri("https://maven.pkg.github.com/murattarslan/httpRequestClient")
+            credentials {
+                val localProperties = Properties()
+                val localPropertiesFile = rootProject.file("local.properties")
+                if (localPropertiesFile.exists()) {
+                    localProperties.load(localPropertiesFile.inputStream())
+                }
+                username = localProperties.getProperty("GITHUB_USER")
+                println("username:" + username)
+                password = localProperties.getProperty("GITHUB_TOKEN")
+                println("password" + password)
+            }
         }
     }
 }
