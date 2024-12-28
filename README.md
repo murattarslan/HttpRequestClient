@@ -25,8 +25,7 @@ Rehber İçeriği:
 maven {
             url = uri("https://maven.pkg.github.com/murattarslan/httpRequestClient")
             credentials {
-                username = <-GITHUB_USERNAME->
-                password = <-GITHUB_TOKEN->
+                password = <!--GITHUB_TOKEN--!> 
             }
         }
 ```
